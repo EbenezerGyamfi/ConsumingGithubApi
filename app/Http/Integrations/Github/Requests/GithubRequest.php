@@ -30,8 +30,6 @@ class GithubRequest extends Request
 
     public function createDtoFromResponse(Response $response) : mixed{
 
-        $reponseData = $response->json();
-
-        return new Repo(name: $reponseData['name'], isPrivate: $reponseData['private'], description: $reponseData['description']);
+        return Repo::fromResponse($response->json());
     }
 }

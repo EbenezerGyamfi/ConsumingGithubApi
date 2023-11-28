@@ -9,7 +9,9 @@ final  class Repo {
         
     }
 
-    public static function fromResponse(){
+    public static function fromResponse($response){
+
+        return new static(name: $response['name'], isPrivate: $response['private'], description: $response['description']);
         
     }
 }
