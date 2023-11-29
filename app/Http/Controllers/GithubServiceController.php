@@ -18,4 +18,11 @@ class GithubServiceController extends Controller
 
         return response()->json($response);
     }
+
+    public function getLanguages( GithubInterface $githubInterface, string $repoName = "juniper", string $userName = "EbenezerGyamfi",){
+
+
+       $response =  $githubInterface->getLanguages(name: $userName, repoName: $repoName);
+       return $response;
+    }
 }
