@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\DataTransferObjects\NewRepoData;
 use App\DataTransferObjects\Repo;
+use App\DataTransferObjects\UpdateRepo;
 use App\Http\Integrations\Github\GithubConnector;
 use App\Http\Integrations\Github\Requests\GithubCreateRepoRequest;
 use App\Http\Integrations\Github\Requests\GithubLanguageRequest;
 use App\Http\Integrations\Github\Requests\GithubRequest;
+use App\Http\Integrations\Github\Requests\GithubUpdateRepoRequest;
 use App\Interface\GithubInterface;
 
 final class GithubService implements GithubInterface
@@ -44,5 +46,14 @@ final class GithubService implements GithubInterface
       return $this->connector()
       ->send(new GithubCreateRepoRequest($newRepoData))
       ->dtoOrFail();
+    }
+
+
+    public function updateRepo(string $repoName, string $owner,  UpdateRepo $updateRepo): Repo{
+
+
+      return $this->connector()
+          ->send(new GithubUpdateRepoRequest(updateRepo: $updateRepo, owner: $owner, repoName: $repoName))
+          ->dtoOrFail();
     }
 }

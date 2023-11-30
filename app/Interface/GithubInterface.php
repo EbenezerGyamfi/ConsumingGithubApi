@@ -4,6 +4,7 @@ namespace App\Interface;
 
 use App\DataTransferObjects\NewRepoData;
 use App\DataTransferObjects\Repo;
+use App\DataTransferObjects\UpdateRepo;
 
 interface GithubInterface {
 
@@ -12,5 +13,7 @@ interface GithubInterface {
     public function getLanguages(string $name, string $repoName): array;
 
     public function createRepo(NewRepoData $newRepoData) : Repo;
+
+    public function updateRepo(string $reponName, string $owner, UpdateRepo $updateRepo) : Repo;
 
 }

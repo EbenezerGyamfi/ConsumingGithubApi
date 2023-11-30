@@ -28,3 +28,4 @@ Route::get('/languages',[GithubServiceController::class, 'getLanguages']);
 
 Route::post('/add-repo',[GithubServiceController::class, 'store']);
 
+Route::patch('/update-repo',[GithubServiceController::class, 'update']);
