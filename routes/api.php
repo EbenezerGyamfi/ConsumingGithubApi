@@ -24,3 +24,7 @@ Route::get('/github',[GithubServiceController::class, 'show']);
 
 
 Route::get('/languages',[GithubServiceController::class, 'getLanguages']);
+
+
+Route::post('/add-repo',[GithubServiceController::class, 'store']);
+

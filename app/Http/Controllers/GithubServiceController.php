@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTransferObjects\CreateRepo;
+use App\DataTransferObjects\NewRepoData;
+use App\DataTransferObjects\Repo;
 use App\Interface\GithubInterface;
 use App\Services\GithubService;
 use Illuminate\Http\Request;
@@ -23,6 +26,19 @@ class GithubServiceController extends Controller
 
 
        $response =  $githubInterface->getLanguages(name: $userName, repoName: $repoName);
-       return $response;
+      
+       return array_keys($response);
+    }
+
+    public function store(Request $request){
+        
+
+
+      $response = app(GithubInterface::class)->createRepo( new NewRepoData($request->name));
+
+      return response()->json(
+        $response
+      );
+
     }
 }

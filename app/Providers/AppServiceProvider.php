@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 
-        $this->app->bind(GithubInterface::class, fn()=> new GithubService(config('services.github.token')));
+        $this->app->singleton(GithubInterface::class, fn()=> new GithubService(config('services.github.token')));
     }
 
     /**

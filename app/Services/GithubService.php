@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\NewRepoData;
 use App\DataTransferObjects\Repo;
 use App\Http\Integrations\Github\GithubConnector;
+use App\Http\Integrations\Github\Requests\GithubCreateRepoRequest;
 use App\Http\Integrations\Github\Requests\GithubLanguageRequest;
 use App\Http\Integrations\Github\Requests\GithubRequest;
 use App\Interface\GithubInterface;
@@ -35,5 +37,12 @@ final class GithubService implements GithubInterface
              ->send(new GithubLanguageRequest( userName:$name, repoName:$repoName))
              ->json();
          
+    }
+
+
+    public function createRepo(NewRepoData $newRepoData) : Repo{
+      return $this->connector()
+      ->send(new GithubCreateRepoRequest($newRepoData))
+      ->dtoOrFail();
     }
 }

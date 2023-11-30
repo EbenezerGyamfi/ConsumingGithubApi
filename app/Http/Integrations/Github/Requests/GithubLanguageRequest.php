@@ -9,7 +9,7 @@ use Saloon\Http\Response;
 class GithubLanguageRequest extends Request
 {
 
-    public function __construct(public string $userName,public string $repoName)
+    public function __construct(private readonly string $userName,private readonly string $repoName)
     {
         
     }
@@ -22,13 +22,6 @@ class GithubLanguageRequest extends Request
      * The endpoint for the request
      */
 
-
-     public function fromResponse(Response $response){
-
-
-        
-        return $response->json();
-     }
 
     public function resolveEndpoint(): string
     {
