@@ -9,46 +9,52 @@ use App\DataTransferObjects\UpdateRepo;
 use App\Interface\GithubInterface;
 use App\Services\GithubService;
 use Illuminate\Http\Request;
+use Saloon\RateLimitPlugin\Exceptions\RateLimitReachedException;
 
 class GithubServiceController extends Controller
 {
 
 
-    public function show(GithubInterface $githubInterface, string $name = 'EbenezerGyamfi', string $repoName = 'hello-world', )
-    {
+  public function show(GithubInterface $githubInterface, string $name = 'EbenezerGyamfi', string $repoName = 'hello-world',)
+  {
 
-        $response = $githubInterface->getRepo($name, $repoName);
-
-
-        return response()->json($response);
+    try {
+      $response = $githubInterface->getRepo($name, $repoName);
+    } catch (RateLimitReachedException $exception) {
+       \Log::error($exception->getLimit()->getRemainingSeconds());
     }
 
-    public function getLanguages( GithubInterface $githubInterface, string $repoName = "juniper", string $userName = "EbenezerGyamfi",){
+
+    return response()->json($response);
+  }
+
+  public function getLanguages(GithubInterface $githubInterface, string $repoName = "juniper", string $userName = "EbenezerGyamfi",)
+  {
 
 
-       $response =  $githubInterface->getLanguages(name: $userName, repoName: $repoName);
-      
-       return array_keys($response);
-    }
+    $response =  $githubInterface->getLanguages(name: $userName, repoName: $repoName);
 
-    public function store(Request $request){
-        
+    return array_keys($response);
+  }
 
-
-      $response = app(GithubInterface::class)->createRepo( new NewRepoData($request->name)); 
-
-      return response()->json(
-        $response
-      );
-
-    }
-
-    public function update( Request $request, GithubInterface $githubInterface, string $repoName="ChangeRepoNameTest2", string $owner="EbenezerGyamfi" ){
+  public function store(Request $request)
+  {
 
 
-        $response = $githubInterface->updateRepo($repoName, owner: $owner, updateRepo:  new UpdateRepo($request->name));
 
-        return response()->json($response);
+    $response = app(GithubInterface::class)->createRepo(new NewRepoData($request->name));
 
-    }
+    return response()->json(
+      $response
+    );
+  }
+
+  public function update(Request $request, GithubInterface $githubInterface, string $repoName = "ChangeRepoNameTest2", string $owner = "EbenezerGyamfi")
+  {
+
+
+    $response = $githubInterface->updateRepo($repoName, owner: $owner, updateRepo: new UpdateRepo($request->name));
+
+    return response()->json($response);
+  }
 }

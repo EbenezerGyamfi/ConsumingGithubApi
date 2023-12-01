@@ -15,45 +15,61 @@ use App\Interface\GithubInterface;
 final class GithubService implements GithubInterface
 {
 
-    public function __construct(private string $token)
-    {
-        
-    }
+  public function __construct(private string $token)
+  {
+  }
 
-    public function connector(){
-        return app(GithubConnector::class)->withTokenAuth($this->token);
-    }
+  public function connector()
+  {
+    return app(GithubConnector::class)->withTokenAuth($this->token);
+  }
 
 
-    public function getRepo(string $name,  string $repoName) : Repo
-    {
-      return $this->connector()
-      ->send(new GithubRequest($name,$repoName))
+  public function getRepo(string $name,  string $repoName) : ?Repo
+  {
+
+
+    return  $this->connector()
+      ->send(new GithubRequest($name, $repoName))
       ->dtoOrFail();
-    }
+  }
 
 
-    public function getLanguages(string $name, string $repoName): array{
+  public function getLanguages(string $name, string $repoName): array
+  {
 
-      return $this->connector()
-             ->send(new GithubLanguageRequest( userName:$name, repoName:$repoName))
-             ->json();
-         
-    }
+    return $this->connector()
+      ->send(new GithubLanguageRequest(userName: $name, repoName: $repoName))
+      ->json();
+  }
 
 
-    public function createRepo(NewRepoData $newRepoData) : Repo{
-      return $this->connector()
+  public function createRepo(NewRepoData $newRepoData): Repo
+  {
+    $response =  $this->connector()
       ->send(new GithubCreateRepoRequest($newRepoData))
       ->dtoOrFail();
-    }
+
+      try {
+        $response->successfull();
+        return $response;
+
+      } catch (\Throwable $th) {
+        //throw $th;
+  
+  
+        \Log::error($th->getMessage());
+       
+      }
+  }
 
 
-    public function updateRepo(string $repoName, string $owner,  UpdateRepo $updateRepo): Repo{
+  public function updateRepo(string $repoName, string $owner,  UpdateRepo $updateRepo): Repo
+  {
 
 
-      return $this->connector()
-          ->send(new GithubUpdateRepoRequest(updateRepo: $updateRepo, owner: $owner, repoName: $repoName))
-          ->dtoOrFail();
-    }
+    return $this->connector()
+      ->send(new GithubUpdateRepoRequest(updateRepo: $updateRepo, owner: $owner, repoName: $repoName))
+      ->dtoOrFail();
+  }
 }

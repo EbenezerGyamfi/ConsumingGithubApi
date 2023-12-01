@@ -8,7 +8,7 @@ use App\DataTransferObjects\UpdateRepo;
 
 interface GithubInterface {
 
-    public function getRepo(string $name, string $repo);
+    public function getRepo(string $name, string $repo) : ?Repo;
 
     public function getLanguages(string $name, string $repoName): array;
 
