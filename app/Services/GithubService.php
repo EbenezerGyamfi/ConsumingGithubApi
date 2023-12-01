@@ -25,13 +25,24 @@ final class GithubService implements GithubInterface
   }
 
 
-  public function getRepo(string $name,  string $repoName) : ?Repo
+public function getRepo(string $name,  string $repoName)
   {
 
+    $requests = [
+      new GithubRequest('EbenezerGyamfi', 'Taste-Repo-11'),
+      new GithubRequest('EbenezerGyamfi', 'Taste-Repo-10'),
+      new GithubRequest('EbenezerGyamfi', 'Taste-Repo-9'),
+      new GithubRequest('EbenezerGyamfi', 'ChangeRepoNameTest3'),
+      new GithubRequest('EbenezerGyamfi', 'ConsumingGithubApi'),
+      new GithubRequest('EbenezerGyamfi', 'ConsumingGithubApi'),
+      new GithubRequest('EbenezerGyamfi', 'Taste-Repo-11'),
+    ];
 
-    return  $this->connector()
-      ->send(new GithubRequest($name, $repoName))
-      ->dtoOrFail();
+    foreach ($requests as $key => $request) {
+      return $this->connector()
+        ->send($request)
+        ->json();
+    }
   }
 
 
@@ -46,21 +57,9 @@ final class GithubService implements GithubInterface
 
   public function createRepo(NewRepoData $newRepoData): Repo
   {
-    $response =  $this->connector()
+    return $this->connector()
       ->send(new GithubCreateRepoRequest($newRepoData))
       ->dtoOrFail();
-
-      try {
-        $response->successfull();
-        return $response;
-
-      } catch (\Throwable $th) {
-        //throw $th;
-  
-  
-        \Log::error($th->getMessage());
-       
-      }
   }
 
 
