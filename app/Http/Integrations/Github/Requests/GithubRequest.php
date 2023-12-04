@@ -24,6 +24,7 @@ class GithubRequest extends Request
      */
     public function resolveEndpoint(): string
     {
+
         return '/repos/'.$this->name.'/'.$this->repoName;
 
     }

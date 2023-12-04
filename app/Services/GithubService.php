@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DataTransferObjects\Repo;
 use App\Http\Integrations\Github\GithubConnector;
+use App\Http\Integrations\Github\Requests\GetAllUserRepoRequest;
 use App\Http\Integrations\Github\Requests\GithubRequest;
 use App\Interface\GithubInterface;
 
@@ -20,10 +21,21 @@ final class GithubService implements GithubInterface
     }
 
 
-    public function getRepo(string $name,  string $repoName) : Repo
+    public function getRepo(string $name,  string $repoName)
     {
       return $this->connector()
       ->send(new GithubRequest($name,$repoName))
-      ->dtoOrFail();
+      ->json();
+    }
+
+    public function getRepos(string $name){
+      $response =  $this->connector()
+                        ->paginate(new GetAllUserRepoRequest($name))
+                        ->collect();
+
+
+
+      return $response;
+
     }
 }

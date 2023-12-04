@@ -8,4 +8,7 @@ interface GithubInterface {
 
     public function getRepo(string $name, string $repo);
 
+
+    public function getRepos(string $name);
+
 }
