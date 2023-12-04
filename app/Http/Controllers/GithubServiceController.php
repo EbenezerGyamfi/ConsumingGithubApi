@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Integrations\Github\GithubExceptions;
 use App\Interface\GithubInterface;
 use App\Services\GithubService;
 use Illuminate\Http\Request;
@@ -9,12 +10,16 @@ use Illuminate\Http\Request;
 class GithubServiceController extends Controller
 {
 
-  public function index(string $name = 'EbenezerGyamfi'){
-
-    $response = app(GithubInterface::class)->getRepos($name);
+  public function index(string $name = 'EbenezerGyami'){
 
     
 
+try {
+  $response = app(GithubInterface::class)->getRepos($name);
+} catch (GithubExceptions $githubException) {
+  
+    \Log::error($githubException->getMessage());
+}
 
     return response()->json([
        'response' => $response
@@ -27,6 +32,7 @@ class GithubServiceController extends Controller
   {
 
     $response = $githubInterface->getRepo($name, $repoName);
+
 
 
     try {
