@@ -7,6 +7,8 @@ interface PaystackInterface {
     public function initiate( string $email, int $amount): array;
 
     public function verify(string $reference): array;
+
+    public function getTransactions(): array;
 }
 
 

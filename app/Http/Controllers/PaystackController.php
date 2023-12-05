@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class PaystackController extends Controller
 {
+    public function index(PaystackInterface $paystackInterface){
+
+        $response = $paystackInterface->getTransactions();
+
+
+        return response()->json([
+            $response
+        ]);
+    }
 
     public function initiate(Request $request, PaystackInterface $paystackInterface){
 
@@ -31,4 +40,5 @@ class PaystackController extends Controller
             $reponse
         ]);
     }
+
 }

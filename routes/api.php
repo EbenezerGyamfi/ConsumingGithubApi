@@ -23,3 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/initiate', [PaystackController::class, 'initiate']);
 
 Route::get('/verify', [PaystackController::class, 'verify']);
+
+
+Route::get('/all-transactions',[PaystackController::class, 'index']);

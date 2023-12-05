@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Integrations\Paystack\Paystack;
 use App\Http\Integrations\Paystack\Requests\InitiPayStackRequest;
+use App\Http\Integrations\Paystack\Requests\PaystackTransactionRequest;
 use App\Http\Integrations\Paystack\Requests\VerifyPaystactRequest;
 use App\Interface\PaystackInterface;
 
@@ -33,6 +34,12 @@ final class PaystackService implements PaystackInterface {
     {
         return $this->connector()
                     ->send(new VerifyPaystactRequest($reference))
+                    ->json();
+    }
+
+    public function getTransactions(): array {
+        return $this->connector()
+                    ->send(new PaystackTransactionRequest())
                     ->json();
     }
 }
