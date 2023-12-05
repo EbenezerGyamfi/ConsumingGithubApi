@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GithubServiceController;
+use App\Http\Controllers\MailgunController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/github',[GithubServiceController::class, 'show']);
 
 Route::get('/get-all-repos', [GithubServiceController::class, 'index']);
+
+Route::post('/Webhooks/mailgun/{status}',MailgunController::class);
