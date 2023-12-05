@@ -20,4 +20,15 @@ class PaystackController extends Controller
             $reponse
         ]);
     }
+
+
+    public function verify(Request $request, PaystackInterface $paystackInterface){
+        $reference = $request->get('reference');
+
+        $reponse = $paystackInterface->verify($reference);
+
+        return response()->json([
+            $reponse
+        ]);
+    }
 }
