@@ -26,3 +26,7 @@ Route::get('/github', [GithubController::class, 'getRepo'])->name('github.getRep
 Route::get('/github/repo/languages', [GithubController::class, 'getLanguages'])->name('github.getLanguages');
 
 Route::post('/create/repo', [GithubController::class, 'store'])->name('github.create');
+
+Route::patch('/update-repo', [GithubController::class, 'update']);
+
+Route::delete('/delete/repo', [GithubController::class, 'delete']);

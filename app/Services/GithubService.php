@@ -6,8 +6,10 @@ use App\DataTransferObjects\Repo;
 use App\DataTransferObjects\UpdateRepoData;
 use App\Http\Integrations\Github\GithubConnector;
 use App\Http\Integrations\Github\Requests\CreateGithubRepo;
+use App\Http\Integrations\Github\Requests\DeleteRepoRequest;
 use App\Http\Integrations\Github\Requests\GetrepoLanguages;
 use App\Http\Integrations\Github\Requests\GetRepoRequest;
+use App\Http\Integrations\Github\Requests\UpdateRepoRequest;
 use App\Interfaces\GithubInterface;
 use App\RepoCollection\Repocollection;
 
@@ -41,7 +43,10 @@ final class GithubService implements GithubInterface {
 
     public function updateRepo(string $repoName, string $owner, UpdateRepoData $updateRepoData): Repo
     {
-        
+
+        return $this->connnector()
+                    ->send(new UpdateRepoRequest(repoName: $repoName, owner: $owner, updateRepoData: $updateRepoData))
+                    ->dtoOrFail();
     }
 
     public function createRepo(NewRepoData $newRepoData): Repo
@@ -55,7 +60,9 @@ final class GithubService implements GithubInterface {
 
     public function deleteRepo(string $repoName, string $owner): void
     {
-        
+
+        $this->connnector()
+            ->send(new DeleteRepoRequest($repoName, $owner));
     }
 
 
