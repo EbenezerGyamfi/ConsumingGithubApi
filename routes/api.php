@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/github', [GithubController::class, 'getRepo'])->name('github.getRepo');
+
+Route::get('/github/repo/languages', [GithubController::class, 'getLanguages'])->name('github.getLanguages');

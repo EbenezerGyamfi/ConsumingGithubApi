@@ -20,4 +20,12 @@ class GithubController extends Controller
             $response
         ]);
     }
+
+    public function getLanguages(GithubInterface $githubInterface, string $repoName = 'paylater', string $owner = 'EbenezerGyamfi'){
+
+        $response = $githubInterface->getRepoLanguages(repoName: $repoName, owner: $owner);
+
+
+        return response()->json($response);
+    }
 }
