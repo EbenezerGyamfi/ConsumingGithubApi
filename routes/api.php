@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GithubController;
+use App\Http\Integrations\Github\GithubConnector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/github', [GithubController::class, 'getRepo'])->name('github.getRepo');
 
 Route::get('/github/repo/languages', [GithubController::class, 'getLanguages'])->name('github.getLanguages');
+
+Route::post('/create/repo', [GithubController::class, 'store'])->name('github.create');

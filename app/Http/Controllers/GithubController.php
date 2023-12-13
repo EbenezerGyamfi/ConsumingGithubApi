@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTransferObjects\NewRepoData;
 use App\Interfaces\GithubInterface;
 use Illuminate\Http\Request;
 
@@ -27,5 +28,12 @@ class GithubController extends Controller
 
 
         return response()->json($response);
+    }
+
+
+    public function store(GithubInterface $githubInterface, Request $request){
+        $response = $githubInterface->createRepo(new NewRepoData($request->name, $request->private, $request->description));
+
+     return response()->json($response);
     }
 }
