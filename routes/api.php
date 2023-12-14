@@ -30,3 +30,5 @@ Route::post('/create/repo', [GithubController::class, 'store'])->name('github.cr
 Route::patch('/update-repo', [GithubController::class, 'update']);
 
 Route::delete('/delete/repo', [GithubController::class, 'delete']);
+
+Route::get('/github/repos', [GithubController::class, 'index'])->name('github.name');

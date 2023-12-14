@@ -11,6 +11,14 @@ class GithubController extends Controller
 {
     //
 
+    public function index(GithubInterface $githubInterface){
+
+        $response = $githubInterface->getRepos();
+        return response()->json($response);
+    }
+
+
+
     public function getRepo(GithubInterface $githubInterface, string $repoName = 'paylater', string $owner = 'EbenezerGyamfi',)
     {
 

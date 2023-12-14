@@ -1,10 +1,10 @@
 <?php
 namespace App\Interfaces;
 
+use App\Collection\Repocollection;
 use App\DataTransferObjects\NewRepoData;
 use App\DataTransferObjects\Repo;
 use App\DataTransferObjects\UpdateRepoData;
-use App\RepoCollection\Repocollection;
 
 interface GithubInterface {
 

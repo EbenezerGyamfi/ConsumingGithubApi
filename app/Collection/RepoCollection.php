@@ -1,9 +1,9 @@
 <?php
-namespace App\RepoCollection;
+namespace App\Collection;
 
 use Illuminate\Support\Collection;
 
-final class Repocollection extends Collection {
+final  class Repocollection extends Collection {
 
 
 }
