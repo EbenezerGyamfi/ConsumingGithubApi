@@ -11,32 +11,78 @@ class TodoListTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    private $todoList;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->todoList = TodoList::factory()->create();
+    }
     /**
      * A basic feature test example.
      */
     public function test_get_todos(): void
     {
 
-        
-       $todo =  TodoList::factory()->create();
-
-
         $response = $this->getJson(route('todo'))->json();
 
 
 
-        $this->assertSame($todo->name, $response['list'][0]['name']);
+        $this->assertSame($this->todoList->name, $response['list'][0]['name']);
     }
 
-    public function test_get_todo(){
+    public function test_get_todo()
+    {
+        $response = $this->getJson(route('single.todo', $this->todoList->id))->json();
 
 
-        $todo_list = TodoList::factory()->create();
+        $this->assertSame($this->todoList->name, $response['todo']['name']);
+    }
 
-        $response = $this->getJson(route('single.todo', $todo_list->id))->json();
+
+    public function test_store_to_list_store()
+    {
 
 
-        $this->assertSame($todo_list->name, $response['todo']['name']);
 
+        $response = $this->postJson(route('todo.store', [
+            'name' => $this->todoList->name
+        ]))
+            ->assertCreated()
+            ->json();
+
+
+
+        $this->assertSame($this->todoList->name, $response['0']['name']);
+    }
+
+
+    public function test_post_todo_with_name_should_send_a_bad_request_error()
+    {
+
+        $response =  $this->postJson(route('todo.store'));
+
+
+
+        $response->assertStatus(500);
+    }
+
+
+    public function test_delete_todo()
+    {
+
+        $response = $this->deleteJson(route('todo.delete', $this->todoList->id));
+
+        $response->assertNoContent();
+    }
+
+    public function test_edit_to_return_ok(){
+
+
+        $response = $this->patchJson(route('todo.edit', $this->todoList->id))->json();
+
+
+        $this->assertSame('test todo 1', $response['name']);
     }
 }
