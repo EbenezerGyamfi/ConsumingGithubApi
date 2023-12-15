@@ -14,16 +14,29 @@ class TodoListTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_get_todo(): void
+    public function test_get_todos(): void
     {
 
         
-        TodoList::create([
-            'name' => 'test todo'
-        ]);
+       $todo =  TodoList::factory()->create();
 
-        $response = $this->getJson(route('todo'));
 
-        $this->assertEquals(1, count($response->json()));
+        $response = $this->getJson(route('todo'))->json();
+
+
+
+        $this->assertSame($todo->name, $response['list'][0]['name']);
+    }
+
+    public function test_get_todo(){
+
+
+        $todo_list = TodoList::factory()->create();
+
+        $response = $this->getJson(route('single.todo', $todo_list->id))->json();
+
+
+        $this->assertSame($todo_list->name, $response['todo']['name']);
+
     }
 }

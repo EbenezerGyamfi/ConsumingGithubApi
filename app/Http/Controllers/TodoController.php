@@ -11,12 +11,19 @@ class TodoController extends Controller
 
     public function index(){
 
-        $todo = TodoList::create([
-            'name' => 'Todo',
-        ]);
+        $todo = TodoList::all();
 
         return response()->json([
             'list' => $todo
         ]);
+    }
+
+    public function show(TodoList $todoList){
+
+
+        return response()->json([
+            'todo' => $todoList
+        ]);
+
     }
 }
